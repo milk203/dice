@@ -64,6 +64,11 @@ abstract contract Ownable is Context {
 contract Dice is Ownable {
     ERC20Extended public betToken;
     mapping(address => UserBet) private userBets;
+    uint256 public minimumBet = 100;
+    uint256 public odds;
+    uint256 private nonce = 0;
+
+    event BetPlaced(address player, uint256 amount, uint256 betValue, bool won);
 
     struct UserBet {
         // ERC20Extended betToken;
@@ -85,26 +90,49 @@ contract Dice is Ownable {
             betValue >= 1 && betValue <= 6,
             "bet value must be between 1 and 6"
         );
-        // require(betToken.transferFrom(msg.sender, address(this), _amount));
+        require(betToken.transferFrom(msg.sender, address(this), _amount));
+
         userBets[msg.sender].amount = _amount;
         userBets[msg.sender].betValue = betValue;
         userBets[msg.sender].isBetPlaced = true;
         rollDice();
     }
 
-    function rollDice() internal returns (bool, uint8) {
+    function rollDice() internal {
         require(userBets[msg.sender].isBetPlaced == true);
         userBets[msg.sender].isBetPlaced == false;
         // get number
+        uint256 randomNumber = random();
+
+        //compare roll to betValue
+        bool won = true;
+        // bool won = (userBets[msg.sender].betValue == randomNumber);
+
+        if (won) {
+            distributePrize();
+        }
+
+        emit BetPlaced(
+            msg.sender,
+            userBets[msg.sender].amount,
+            userBets[msg.sender].betValue,
+            won
+        );
     }
 
-    function random() private view returns (uint8) {
+    function random() public returns (uint256) {
         //1-6 random number generator
+        //chainlink VRF to be implemented in prod, pseudorandom is sufficient for testing
+        nonce++;
+        return
+            (uint256(
+                keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))
+            ) % 6) + 1;
     }
 
-    function distributePrize() private view {
-        // check if sender won
-        //if won sender tokens from owner to sender
-        //otherwise send tokens from sender to owner
+    function distributePrize() internal {
+        uint256 payout = userBets[msg.sender].amount;
+        betToken.approve(address(this), payout);
+        betToken.transferFrom(address(this), msg.sender, payout);
     }
 }

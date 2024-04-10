@@ -4,7 +4,7 @@ const {
 const BigNumber = require("bignumber.js");
 const { expect } = require("chai");
 
-describe("Lending", function () {
+describe("Dice", function () {
     async function deployContractAndSetVariables() {
         const [owner, address, address2] = await ethers.getSigners();
 
@@ -18,7 +18,7 @@ describe("Lending", function () {
 
         const diceToken = await erc20_contract_factory.deploy(owner.address);
 
-        const diceGame = await dice_contract_factory.deploy(diceToken.address);
+        const diceGame = await dice_contract_factory.deploy(diceToken);
         const maxUint256 = BigInt(
             "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
         );
@@ -26,13 +26,10 @@ describe("Lending", function () {
         const placeHolder = 10000;
 
         // mint dice tokens for bets
-        await diceToken.mint(owner.address, placeHolder);
-        await diceToken.mint(address.address, placeHolder);
-        await diceToken.mint(diceGame.address, placeHolder);
-        console.log(
-            await diceToken.balanceOf(address.address),
-            "address.address balance before it function"
-        );
+        await diceToken.mint(owner, placeHolder);
+        await diceToken.mint(address, placeHolder);
+        await diceToken.mint(diceGame, placeHolder);
+
         return {
             diceToken,
             diceGame,
@@ -45,18 +42,24 @@ describe("Lending", function () {
     it("should place bet correctly", async function () {
         const { diceToken, diceGame, maxUint256, owner, address } =
             await loadFixture(deployContractAndSetVariables);
-        // console.log(diceGame.address);
 
         var Contractbalance;
         Contractbalance = await diceToken.balanceOf(address.address);
-        console.log(Contractbalance.toString(), "balance before");
 
         await diceToken
             .connect(address)
-            .approve(diceGame.address, maxUint256.toString());
-        await diceGame.connect(address).placeBet(100, 5);
+            .approve(diceGame, maxUint256.toString());
+        await diceGame.connect(address).placeBet(10, 5);
 
         Contractbalance = await diceToken.balanceOf(address.address);
-        console.log(Contractbalance, "balanceafter");
+    });
+    it("should place bet correctly", async function () {
+        const { diceToken, diceGame, maxUint256, owner, address } =
+            await loadFixture(deployContractAndSetVariables);
+
+        await diceToken
+            .connect(address)
+            .approve(diceGame, maxUint256.toString());
+        await diceGame.connect(address).placeBet(10, 5);
     });
 });

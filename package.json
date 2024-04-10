@@ -1,26 +1,24 @@
 {
-  "name": "dice",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@chainlink/hardhat-chainlink": "^0.0.4",
-    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "hardhat": "^2.22.2"
-  },
-  "dependencies": {
-    "@chainlink/contracts": "^1.0.0",
-    "@openzeppelin/contracts": "^5.0.2",
-    "bignumber.js": "^9.1.2",
-    "dotenv": "^16.4.5"
-  }
+    "name": "dice",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "directories": {
+        "lib": "lib"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+        "hardhat": "^2.22.2"
+    },
+    "dependencies": {
+        "@openzeppelin/contracts": "^5.0.2",
+        "bignumber.js": "^9.1.2",
+        "dotenv": "^16.4.5"
+    }
 }

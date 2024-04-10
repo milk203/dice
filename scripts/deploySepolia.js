@@ -3,11 +3,10 @@ const axios = require("axios");
 
 // https://www.youtube.com/watch?v=Az1X5sFB8nU
 async function main() {
-    console.log("deploying...");
+    console.log("deploying to sepolia...");
     const signers = await ethers.getSigners();
     const deployer = signers[0];
-    console.log(deployer.address);
-    console.log(signers[1].address);
+    console.log(deployer.address, "deployer address");
 
     //get contracts
     const dice_contract_factory = await ethers.getContractFactory("Dice");
@@ -15,17 +14,24 @@ async function main() {
 
     const diceToken = await erc20.deploy(deployer.address);
     const diceGame = await dice_contract_factory.deploy(diceToken.target);
+    console.log(diceGame.target, "diceGame.target");
 
     console.log("diceGame address deployed at....", diceGame.target);
     console.log("diceToken address deployed at....", diceToken.target);
 
     const placeHolder = 1000000000;
-    await diceToken.mint(deployer.address, placeHolder);
-    await diceToken.mint(diceGame.target, placeHolder);
-    await diceToken.mint(
-        "0x30a00f15F3f98dF7228D019d3bD80AD6164eC94a",
+    const mintToDeployer = await diceToken.mint(deployer.address, placeHolder);
+    await mintToDeployer.wait();
+    const mintToDiceContract = await diceToken.mint(
+        diceGame.target,
         placeHolder
     );
+    await mintToDiceContract.wait();
+
+    // await diceToken.mint(
+    //     "0x30a00f15F3f98dF7228D019d3bD80AD6164eC94a",
+    //     placeHolder
+    // );
 
     const bn = new BigNumber(1000000000000000000 * 10 ** 9);
 

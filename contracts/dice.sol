@@ -90,28 +90,30 @@ contract Dice is Ownable {
             betValue >= 1 && betValue <= 6,
             "bet value must be between 1 and 6"
         );
-        require(betToken.transferFrom(msg.sender, address(this), _amount));
-
+        require(
+            betToken.transferFrom(msg.sender, address(this), _amount),
+            "transfer failed"
+        );
         userBets[msg.sender].amount = _amount;
         userBets[msg.sender].betValue = betValue;
         userBets[msg.sender].isBetPlaced = true;
+
         rollDice();
     }
 
     function rollDice() internal {
         require(userBets[msg.sender].isBetPlaced == true);
-        userBets[msg.sender].isBetPlaced == false;
         // get number
         uint256 randomNumber = random();
 
         //compare roll to betValue
-        bool won = true;
-        // bool won = (userBets[msg.sender].betValue == randomNumber);
+        // bool won = true;
+        bool won = (userBets[msg.sender].betValue == randomNumber);
 
         if (won) {
             distributePrize();
         }
-
+        userBets[msg.sender].isBetPlaced = false;
         emit BetPlaced(
             msg.sender,
             userBets[msg.sender].amount,
@@ -124,10 +126,11 @@ contract Dice is Ownable {
         //1-6 random number generator
         //chainlink VRF to be implemented in prod, pseudorandom is sufficient for testing
         nonce++;
-        return
-            (uint256(
-                keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))
-            ) % 6) + 1;
+        // return
+        //     (uint256(
+        //         keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))
+        //     ) % 6) + 1;
+        return 2;
     }
 
     function distributePrize() internal {

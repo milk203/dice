@@ -1,0 +1,138 @@
+.dicegame-main {
+    /* background-color: darkgreen; */
+    background-image: url('../images/grassBackground1.png');
+    /* background-size: 50% calc(100vh - 50px);  */
+    /* background-size: 100vh 100vh; */
+    /* background-position: center; */
+    background-repeat: no-repeat; 
+    background-size: 100% calc(100vh - 50px);
+    
+}  
+
+.grass1 {
+    z-index: 2;
+
+    width: 100px;
+    height: 300px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 140px;
+    margin: auto;
+}
+
+.grass4 {
+    z-index: 2;
+
+    width: 100px;
+    height: 300px;
+    position: absolute;
+    top: 0;
+    left: 90px;
+    right: 0;
+    bottom: 140px;
+    margin: auto;
+}
+
+.grass2 {
+    z-index: 2;
+
+    width: 100px;
+    height: 300px;
+    position: absolute;
+    top: 0;
+    left: 500px;
+    right: 0;
+    bottom: 40px;
+    margin: auto;
+
+}
+
+.grass3 {
+    z-index: 2;
+
+    width: 100px;
+    height: 300px;
+    position: absolute;
+    top: 150px;
+    left: 0;
+    right: 500px;
+    bottom: 140px;
+    margin: auto;
+}
+
+
+
+.grass5 {
+    z-index: 2;
+
+    width: 100px;
+    height: 300px;
+    position: absolute;
+    top: 250px;
+    left: 0;
+    right: 800px;
+    bottom: 140px;
+    margin: auto;
+}
+
+@keyframes shake {
+    0% { transform: translate(0, 0); }
+    10%, 30%, 50%, 70%, 90% { transform: translate(-5px, 0); }
+    20%, 40%, 60%, 80%, 100% { transform: translate(5px, 0); }
+}
+
+
+.grass6 {
+    z-index: 2;
+
+    /* animation: shake 0.01s infinite; */
+    width: 100px;
+    height: 300px;
+    position: absolute;
+    top: 200px;
+    left: 880px;
+    right: 0;
+    bottom: 140px;
+    margin: auto;
+    
+}
+
+
+.unicorn1 {
+    z-index: 1;
+    width: 255px;
+    height: 255px;
+    position: absolute;
+   
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    /* animation: moveImage 1.5s linear infinite; */
+}
+
+@keyframes moveImage {
+    0% {
+      top: 0;
+      left: 0;
+    }
+    25% {
+      top: 0;
+      left: calc(100vw - 100px);
+    }
+    50% {
+      top: calc(100vh - 100px);
+      left: calc(100vw - 100px);
+    }
+    75% {
+      top: calc(100vh - 100px);
+      left: 0;
+    }
+    100% {
+      top: 0;
+      left: 0;
+    }
+  }
